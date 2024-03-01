@@ -30,7 +30,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: jiraaappppoc.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_0f1f3f6f921546588748e154e56f6607 }}/jiraaappppoc.azurecr.io/:${{ github.sha }}
+        tags: jiraaappppoc.azurecr.io${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
