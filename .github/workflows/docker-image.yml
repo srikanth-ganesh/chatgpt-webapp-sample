@@ -15,10 +15,10 @@ jobs:
     - name: Azure Container Registry Login
       uses: Azure/docker-login@v1
       with:
-        # Container registry username
-        #username: ${{ secrets.SAMPLEAPP_ACR_USERNAME }}
+        #Container registry username
+        username: ${{ secrets.SAMPLEAPP_ACR_USERNAME }}
         # Container registry password
-        #password: ${{ secrets.SAMPLEAPP_ACR_PASSWORD }}
+        password: ${{ secrets.SAMPLEAPP_ACR_PASSWORD }}
         # Container registry server url
         login-server: jiraaappppoc.azurecr.io
         
