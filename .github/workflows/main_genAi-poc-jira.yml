@@ -23,14 +23,14 @@ jobs:
       uses: docker/login-action@v2
       with:
         registry: https://https:/
-        username: ${{ secrets.AzureAppService_ContainerUsername_8cd9ba7ad341442c9d15591e34762bd8 }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_7df2dc1578d448949ec321906dbeebb9 }}
+        username: ${{ secrets.AzureAppService_ContainerUsername_f819f969b4d04a8bbfc97dec6bcc2b72 }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_d6f02b6538614729b3cbd3cbbb418084 }}
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: https:/${{ secrets.AzureAppService_ContainerUsername_8cd9ba7ad341442c9d15591e34762bd8 }}/jiraaappppoc.azurecr.io/sample-app-aoai-chatgpt:${{ github.sha }}
+        tags: https:/${{ secrets.AzureAppService_ContainerUsername_f819f969b4d04a8bbfc97dec6bcc2b72 }}/jiraaappppoc.azurecr.io/sample-app-aoai-chatgpt:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -47,5 +47,5 @@ jobs:
       with:
         app-name: 'genAi-poc-jira'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_3fb4d4b5174e4f0693708216479419e6 }}
-        images: 'https:/${{ secrets.AzureAppService_ContainerUsername_8cd9ba7ad341442c9d15591e34762bd8 }}/jiraaappppoc.azurecr.io/sample-app-aoai-chatgpt:${{ github.sha }}'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_1c11a71cc0b242399db312be994a6a9c }}
+        images: 'https:/${{ secrets.AzureAppService_ContainerUsername_f819f969b4d04a8bbfc97dec6bcc2b72 }}/jiraaappppoc.azurecr.io/sample-app-aoai-chatgpt:${{ github.sha }}'
