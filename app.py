@@ -516,7 +516,7 @@ def prepare_model_args(request_body):
 
         for message in request_messages:
             if message:        
-                jira_prompt = generatePrompt(messages["content"])
+                jira_prompt = generatePrompt(message["content"])
                 messages.append({
                 "role": "user",
                 "content": jira_prompt
