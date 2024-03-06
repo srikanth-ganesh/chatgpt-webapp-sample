@@ -504,10 +504,17 @@ def prepare_model_args(request_body):
     request_messages = request_body.get("messages", [])    
     messages = []
     if not SHOULD_USE_DATA:
+        # messages = [
+        #     {
+        #         "role": "system",
+        #         "content": AZURE_OPENAI_SYSTEM_MESSAGE
+        #     }
+        # ]
+        jira_prompt = generatePrompt(messages)
         messages = [
             {
-                "role": "system",
-                "content": AZURE_OPENAI_SYSTEM_MESSAGE
+                "role": "user",
+                "content": jira_prompt
             }
         ]
 
@@ -517,7 +524,7 @@ def prepare_model_args(request_body):
                 "role": message["role"] ,
                 "content": message["content"]
             })
-    jira_prompt = generatePrompt(messages)
+
     model_args = {
         ##"messages": messages, ## commenetd by sriks 06-Mar-24
         "messages" : jira_prompt, ## added by sriks 06-Mar-24
