@@ -501,22 +501,24 @@ def get_configured_data_source():
     return data_source
 
 def prepare_model_args(request_body):
-    request_messages = request_body.get("messages", [])    
+    request_messages = request_body.get("messages", [])   
+    logging.debug("request_messages in prepare_model_args==> " + str(request_body)) 
     messages = []
     if not SHOULD_USE_DATA:
-        # messages = [
-        #     {
-        #         "role": "system",
-        #         "content": AZURE_OPENAI_SYSTEM_MESSAGE
-        #     }
-        # ]
-        jira_prompt = generatePrompt(messages)
         messages = [
             {
-                "role": "user",
-                "content": jira_prompt
+                ##"role": "system",
+                "role":"user",
+                "content": AZURE_OPENAI_SYSTEM_MESSAGE
             }
         ]
+        jira_prompt = generatePrompt(messages)
+        # messages = [
+        #     {
+        #         "role": "user",
+        #         "content": jira_prompt
+        #     }
+        # ]
 
     for message in request_messages:
         if message:
