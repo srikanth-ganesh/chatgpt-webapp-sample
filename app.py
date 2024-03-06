@@ -505,31 +505,30 @@ def prepare_model_args(request_body):
     logging.debug("request_messages in prepare_model_args==> " + str(request_body)) 
     messages = []
     if not SHOULD_USE_DATA:
-        messages = [
-            {
-                ##"role": "system",
-                "role":"user",
-                "content": AZURE_OPENAI_SYSTEM_MESSAGE
-            }
-        ]
-        jira_prompt = generatePrompt(messages)
         # messages = [
         #     {
-        #         "role": "user",
-        #         "content": jira_prompt
+        #         ##"role": "system",
+        #         "role":"user",
+        #         "content": AZURE_OPENAI_SYSTEM_MESSAGE
         #     }
         # ]
+        jira_prompt = generatePrompt(request_messages["content"])
+        messages = [
+            {
+                "role": "user",
+                "content": jira_prompt
+            }
+        ]
 
-    for message in request_messages:
-        if message:
-            messages.append({
-                "role": message["role"] ,
-                "content": message["content"]
-            })
+    # for message in request_messages:
+    #     if message:
+    #         messages.append({
+    #             "role": message["role"] ,
+    #             "content": message["content"]
+    #         })
 
     model_args = {
-        ##"messages": messages, ## commenetd by sriks 06-Mar-24
-        "messages" : jira_prompt, ## added by sriks 06-Mar-24
+        "messages": messages, 
         "temperature": float(AZURE_OPENAI_TEMPERATURE),
         "max_tokens": int(AZURE_OPENAI_MAX_TOKENS),
         "top_p": float(AZURE_OPENAI_TOP_P),
