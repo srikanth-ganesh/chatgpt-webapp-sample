@@ -213,6 +213,21 @@ def should_use_data():
     return False
 
 SHOULD_USE_DATA = should_use_data()
+## create the prompt for generating the JIra ticket
+def generatePrompt(Prompt):
+    ques = f"""Based on the following description {Prompt} Create a Jira ticket text. ||
+    It should contain a title. ||
+    It should contain a Description section. ||
+    Explaining what needs to be created, why, benefits, use cases. ||
+    It should contain a requirements section. ||
+    It should contain Priority section as low or medium or high. ||
+    If you have  any extra Accessibility recommendation add an Accessibility section.||
+    If you have  any extra SEO recommendation add an SEO section.||
+    It should contain a design section asking to add the related design and stating that they should be followed to create the component||
+    It should contain an Acceptance Criteria section, summarizing what needs to be achieved to consider the ticket done  || 
+    It should contain a Supporting information section, and fill it in if supporting information are given in the description.||
+    It should contain a Dependencies section, and fill it in if supporting information are given in the description.Also include '#' after each field."""
+    return ques
 
 # Initialize Azure OpenAI Client
 def init_openai_client(use_data=SHOULD_USE_DATA):
@@ -486,7 +501,7 @@ def get_configured_data_source():
     return data_source
 
 def prepare_model_args(request_body):
-    request_messages = request_body.get("messages", [])
+    request_messages = request_body.get("messages", [])    
     messages = []
     if not SHOULD_USE_DATA:
         messages = [
@@ -502,9 +517,10 @@ def prepare_model_args(request_body):
                 "role": message["role"] ,
                 "content": message["content"]
             })
-
+    jira_prompt = generatePrompt(messages)
     model_args = {
-        "messages": messages,
+        ##"messages": messages, ## commenetd by sriks 06-Mar-24
+        "messages" : jira_prompt, ## added by sriks 06-Mar-24
         "temperature": float(AZURE_OPENAI_TEMPERATURE),
         "max_tokens": int(AZURE_OPENAI_MAX_TOKENS),
         "top_p": float(AZURE_OPENAI_TOP_P),
@@ -544,6 +560,7 @@ async def send_chat_request(request):
     try:
         azure_openai_client = init_openai_client()
         response = await azure_openai_client.chat.completions.create(**model_args)
+        logging.info('within send_chat_request == ' + str(response))
 
     except Exception as e:
         logging.exception("Exception in send_chat_request")
@@ -607,6 +624,7 @@ def get_frontend_settings():
 @bp.route("/history/generate", methods=["POST"])
 async def add_conversation():
     authenticated_user = get_authenticated_user_details(request_headers=request.headers)
+    logging.debug(f"authenticated_user: {authenticated_user}")
     user_id = authenticated_user['user_principal_id']
 
     ## check request for conversation_id
