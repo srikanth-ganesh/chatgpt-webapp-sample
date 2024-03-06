@@ -512,20 +512,15 @@ def prepare_model_args(request_body):
         #         "content": AZURE_OPENAI_SYSTEM_MESSAGE
         #     }
         # ]
-        jira_prompt = generatePrompt(request_messages["content"])
-        messages = [
-            {
+
+
+        for message in request_messages:
+            if message:        
+                jira_prompt = generatePrompt(request_messages["content"])
+                messages.append({
                 "role": "user",
                 "content": jira_prompt
-            }
-        ]
-
-    # for message in request_messages:
-    #     if message:
-    #         messages.append({
-    #             "role": message["role"] ,
-    #             "content": message["content"]
-    #         })
+                })
 
     model_args = {
         "messages": messages, 
