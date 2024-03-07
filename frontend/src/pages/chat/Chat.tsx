@@ -772,7 +772,10 @@ const Chat = () => {
                                 >
                                 </Dialog>
                             </Stack>
-                            <SolutionDropdown onHandleSelection={handleDropDownSelection}/>
+                            <Stack>
+                               <SolutionDropdown onHandleSelection={handleDropDownSelection}/>
+                            </Stack>
+                            
                             <QuestionInput
                                 clearOnSend
                                 placeholder="Enter the new requirement details here..."

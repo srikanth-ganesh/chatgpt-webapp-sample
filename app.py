@@ -214,19 +214,29 @@ def should_use_data():
 
 SHOULD_USE_DATA = should_use_data()
 ## create the prompt for generating the JIra ticket
-def generatePrompt(Prompt):
-    ques = f"""Based on the following description {Prompt} Create a Jira ticket text. ||
-    It should contain a title. ||
-    It should contain a Description section. ||
-    Explaining what needs to be created, why, benefits, use cases. ||
-    It should contain a requirements section. ||
-    It should contain Priority section as low or medium or high. ||
-    If you have  any extra Accessibility recommendation add an Accessibility section.||
-    If you have  any extra SEO recommendation add an SEO section.||
-    It should contain a design section asking to add the related design and stating that they should be followed to create the component||
-    It should contain an Acceptance Criteria section, summarizing what needs to be achieved to consider the ticket done  || 
-    It should contain a Supporting information section, and fill it in if supporting information are given in the description.||
-    It should contain a Dependencies section, and fill it in if supporting information are given in the description.Also include '#' after each field."""
+def generatePrompt(Prompt,Type):
+    if Type == "createJira":
+        ques = f"""Based on the following description {Prompt} Create a Jira ticket text. ||
+        It should contain a title. ||
+        It should contain a Description section. ||
+        Explaining what needs to be created, why, benefits, use cases. ||
+        It should contain a requirements section. ||
+        It should contain Priority section as low or medium or high. ||
+        If you have  any extra Accessibility recommendation add an Accessibility section.||
+        If you have  any extra SEO recommendation add an SEO section.||
+        It should contain a design section asking to add the related design and stating that they should be followed to create the component||
+        It should contain an Acceptance Criteria section, summarizing what needs to be achieved to consider the ticket done  || 
+        It should contain a Supporting information section, and fill it in if supporting information are given in the description.||
+        It should contain a Dependencies section, and fill it in if supporting information are given in the description.Also include '#' after each field."""
+    if Type == "grammarCheck" :
+        ques = f"""Instructions:
+        Share a sentence for grammar verification. 
+        If grammatical corrections are required,only then, the response will begin with "CORRECTED," 
+        followed by the corrected sentence and a "REASON" tag explaining the correction. 
+        Only incorrect sentences will be corrected; correct sentences will be returned unchanged, without any additional tags.
+        when the sentence is grammatically correct,Do not give any additional response other than the original correct sentence.
+        Userinput:{Prompt}
+        <<SUMMARY>> """
     return ques
 
 # Initialize Azure OpenAI Client
@@ -516,7 +526,7 @@ def prepare_model_args(request_body):
 
         for message in request_messages:
             if message:        
-                jira_prompt = generatePrompt(message["content"])
+                jira_prompt = generatePrompt(message["content"],message['QueryType'])
                 messages.append({
                 "role": "user",
                 "content": jira_prompt
