@@ -10,3 +10,8 @@ scripts/
 chatwebapp/
 Lib/
 pyvenv.cfg
+<<<<<<< HEAD
+=======
+static/
+static/assets/
+>>>>>>> 1e3d6c3 (dropdwon changes)
