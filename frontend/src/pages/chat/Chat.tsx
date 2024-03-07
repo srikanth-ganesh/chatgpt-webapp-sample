@@ -32,6 +32,7 @@ import {
 import { Answer } from "../../components/Answer";
 import { QuestionInput } from "../../components/QuestionInput";
 import { ChatHistoryPanel } from "../../components/ChatHistory/ChatHistoryPanel";
+import { SolutionDropdown } from "../../components/SolutionDropdown";
 import { AppStateContext } from "../../state/AppProvider";
 import { useBoolean } from "@fluentui/react-hooks";
 
@@ -57,6 +58,7 @@ const Chat = () => {
     const [clearingChat, setClearingChat] = useState<boolean>(false);
     const [hideErrorDialog, { toggle: toggleErrorDialog }] = useBoolean(true);
     const [errorMsg, setErrorMsg] = useState<ErrorMessage | null>()
+    const [businessOption, setBusinessOption] = useState<ErrorMessage | null>()
 
     const errorDialogContentProps = {
         type: DialogType.close,
@@ -99,13 +101,14 @@ const Chat = () => {
         setIsLoading(appStateContext?.state.chatHistoryLoadingState === ChatHistoryLoadingState.Loading)
     }, [appStateContext?.state.chatHistoryLoadingState])
 
-    const getUserInfoList = async () => {
+    const getUserInfoList = async () => {        
         if (!AUTH_ENABLED) {
             setShowAuthMessage(false);
             return;
         }
         const userInfoList = await getUserInfo();
-        if (userInfoList.length === 0 && window.location.hostname !== "127.0.0.1") {
+        console.log('window.location.hostname== ',window.location.hostname)
+        if (userInfoList.length === 0 && window.location.hostname !== "127.0.0.1" && window.location.hostname !== "localhost")  {
             setShowAuthMessage(true);
         }
         else {
@@ -146,7 +149,7 @@ const Chat = () => {
         }
     }
 
-    const makeApiRequestWithoutCosmosDB = async (question: string, conversationId?: string) => {
+    const makeApiRequestWithoutCosmosDB = async (question: string, conversationId?: string,businessOption?:string) => {
         setIsLoading(true);
         setShowLoadingMessage(true);
         const abortController = new AbortController();
@@ -157,6 +160,7 @@ const Chat = () => {
             role: "user",
             content: question,
             date: new Date().toISOString(),
+            QueryType:businessOption || "createJira"
         };
 
         let conversation: Conversation | null | undefined;
@@ -270,7 +274,7 @@ const Chat = () => {
         return abortController.abort();
     };
 
-    const makeApiRequestWithCosmosDB = async (question: string, conversationId?: string) => {
+    const makeApiRequestWithCosmosDB = async (question: string, conversationId?: string,businessOption?:string) => {
         setIsLoading(true);
         setShowLoadingMessage(true);
         const abortController = new AbortController();
@@ -281,6 +285,7 @@ const Chat = () => {
             role: "user",
             content: question,
             date: new Date().toISOString(),
+            QueryType:businessOption || "createJira"
         };
 
         //api call params set here (generate)
@@ -621,6 +626,9 @@ const Chat = () => {
     const disabledButton = () => {
         return isLoading || (messages && messages.length === 0) || clearingChat || appStateContext?.state.chatHistoryLoadingState === ChatHistoryLoadingState.Loading
     }
+    const handleDropDownSelection = (value:any) =>{
+        setBusinessOption(value)
+    }
 
     return (
         <div className={styles.container} role="main">
@@ -764,12 +772,13 @@ const Chat = () => {
                                 >
                                 </Dialog>
                             </Stack>
+                            <SolutionDropdown onHandleSelection={handleDropDownSelection}/>
                             <QuestionInput
                                 clearOnSend
                                 placeholder="Enter the new requirement details here..."
                                 disabled={isLoading}
-                                onSend={(question, id) => {
-                                    appStateContext?.state.isCosmosDBAvailable?.cosmosDB ? makeApiRequestWithCosmosDB(question, id) : makeApiRequestWithoutCosmosDB(question, id)
+                                onSend={(question, id,businessOption) => {
+                                    appStateContext?.state.isCosmosDBAvailable?.cosmosDB ? makeApiRequestWithCosmosDB(question, id,businessOption) : makeApiRequestWithoutCosmosDB(question, id,businessOption)
                                 }}
                                 conversationId={appStateContext?.state.currentChat?.id ? appStateContext?.state.currentChat?.id : undefined}
                             />

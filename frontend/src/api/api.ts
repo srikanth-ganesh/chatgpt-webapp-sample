@@ -293,7 +293,7 @@ export const historyEnsure = async (): Promise<CosmosDBHealth> => {
         }
     })
     .catch((err) => {
-        console.error("There was an issue fetching your data.");
+        console.error("There was an issue fetching your data.",err);
         return {
             cosmosDB: false,
             status: err

@@ -5,7 +5,7 @@ import Send from "../../assets/Send.svg";
 import styles from "./QuestionInput.module.css";
 
 interface Props {
-    onSend: (question: string, id?: string) => void;
+    onSend: (question: string, id?: string,businessOption?:string) => void;
     disabled: boolean;
     placeholder?: string;
     clearOnSend?: boolean;
@@ -14,6 +14,7 @@ interface Props {
 
 export const QuestionInput = ({ onSend, disabled, placeholder, clearOnSend, conversationId }: Props) => {
     const [question, setQuestion] = useState<string>("");
+    const [businessOption, setBusinessOption] = useState<string>("");
 
     const sendQuestion = () => {
         if (disabled || !question.trim()) {
@@ -21,9 +22,9 @@ export const QuestionInput = ({ onSend, disabled, placeholder, clearOnSend, conv
         }
 
         if(conversationId){
-            onSend(question, conversationId);
+            onSend(question, conversationId,businessOption);
         }else{
-            onSend(question);
+            onSend(question,businessOption);
         }
 
         if (clearOnSend) {

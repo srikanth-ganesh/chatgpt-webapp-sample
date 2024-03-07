@@ -13,13 +13,23 @@ import { AppStateProvider } from "./state/AppProvider";
 initializeIcons();
 
 export default function App() {
+    // return (
+    //     <AppStateProvider>
+    //         <HashRouter>
+    //             <Routes>
+    //                 <Route path="/" element={<Layout />}>
+    //                     <Route index element={<Chat />} />
+    //                     <Route path="*" element={<NoPage />} />
+    //                 </Route>
+    //             </Routes>
+    //         </HashRouter>
+    //     </AppStateProvider>
+    // );
     return (
         <AppStateProvider>
             <HashRouter>
                 <Routes>
-                    <Route path="/" element={<Layout />}>
-                        <Route index element={<Chat />} />
-                        <Route path="*" element={<NoPage />} />
+                    <Route path="/" element={<Chat />}>
                     </Route>
                 </Routes>
             </HashRouter>

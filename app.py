@@ -168,7 +168,7 @@ AZURE_MLINDEX_QUERY_TYPE = os.environ.get("AZURE_MLINDEX_QUERY_TYPE")
 
 
 # Frontend Settings via Environment Variables
-AUTH_ENABLED = os.environ.get("AUTH_ENABLED", "true").lower() == "true"
+AUTH_ENABLED = os.environ.get("AUTH_ENABLED", "true").lower() == "false"
 CHAT_HISTORY_ENABLED = AZURE_COSMOSDB_ACCOUNT and AZURE_COSMOSDB_DATABASE and AZURE_COSMOSDB_CONVERSATIONS_CONTAINER
 frontend_settings = { 
     "auth_enabled": AUTH_ENABLED, 
