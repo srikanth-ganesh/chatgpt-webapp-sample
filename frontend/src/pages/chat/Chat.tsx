@@ -277,6 +277,7 @@ const Chat = () => {
     const makeApiRequestWithCosmosDB = async (question: string, conversationId?: string,businessOption?:string) => {
         setIsLoading(true);
         setShowLoadingMessage(true);
+        console.log ('within cosmos db business option value:: ' ,businessOption)
         const abortController = new AbortController();
         abortFuncs.current.unshift(abortController);
 
@@ -772,7 +773,10 @@ const Chat = () => {
                                     modalProps={modalProps}
                                 >
                                 </Dialog>
-                            </Stack>      
+                            </Stack> 
+                            <Stack>
+                        <SolutionDropdown onHandleSelection={handleDropDownSelection}/>
+                    </Stack>     
                             
                             <QuestionInput
                                 clearOnSend
@@ -805,9 +809,7 @@ const Chat = () => {
                         </Stack.Item>
                     )}
                     {(appStateContext?.state.isChatHistoryOpen && appStateContext?.state.isCosmosDBAvailable?.status !== CosmosDBStatus.NotConfigured) && <ChatHistoryPanel />}
-                    <Stack>
-                        <SolutionDropdown onHandleSelection={handleDropDownSelection}/>
-                    </Stack>
+
                 </Stack>
             )}
         </div>
