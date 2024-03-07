@@ -8,6 +8,8 @@ import {
   Icon
 } from "@fluentui/react";
 
+import styles from "./QuestionInput.module.css";
+
 interface Props {
     onHandleSelection: (selectedOption: string) => void;
 }
@@ -27,7 +29,7 @@ export const SolutionDropdown = (props:Props) => {
   };
 
   return (
-    <div style={{ position: "relative" }}>
+    <div style={{ position: "relative",left:"2.5%" }}>
 
       <Dropdown
         label={"Select a solution..."}
@@ -51,6 +53,7 @@ export const SolutionDropdown = (props:Props) => {
                   styles={{
                     root: {
                       color: "rgb(96, 94, 92)",
+                      marginRight:".7em",
                       paddingRight: ".7em",
                       "&:hover": {
                         fontWeight: 800

@@ -627,6 +627,7 @@ const Chat = () => {
         return isLoading || (messages && messages.length === 0) || clearingChat || appStateContext?.state.chatHistoryLoadingState === ChatHistoryLoadingState.Loading
     }
     const handleDropDownSelection = (value:any) =>{
+        console.log('in chat tsx value is::',value)
         setBusinessOption(value)
     }
 
@@ -771,10 +772,7 @@ const Chat = () => {
                                     modalProps={modalProps}
                                 >
                                 </Dialog>
-                            </Stack>
-                            <Stack>
-                               <SolutionDropdown onHandleSelection={handleDropDownSelection}/>
-                            </Stack>
+                            </Stack>      
                             
                             <QuestionInput
                                 clearOnSend
@@ -807,6 +805,9 @@ const Chat = () => {
                         </Stack.Item>
                     )}
                     {(appStateContext?.state.isChatHistoryOpen && appStateContext?.state.isCosmosDBAvailable?.status !== CosmosDBStatus.NotConfigured) && <ChatHistoryPanel />}
+                    <Stack>
+                        <SolutionDropdown onHandleSelection={handleDropDownSelection}/>
+                    </Stack>
                 </Stack>
             )}
         </div>
