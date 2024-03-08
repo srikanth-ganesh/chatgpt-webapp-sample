@@ -32,7 +32,7 @@ import {
 import { Answer } from "../../components/Answer";
 import { QuestionInput } from "../../components/QuestionInput";
 import { ChatHistoryPanel } from "../../components/ChatHistory/ChatHistoryPanel";
-import { SolutionDropdown } from "../../components/SolutionDropdown";
+
 import { AppStateContext } from "../../state/AppProvider";
 import { useBoolean } from "@fluentui/react-hooks";
 
@@ -627,10 +627,7 @@ const Chat = () => {
     const disabledButton = () => {
         return isLoading || (messages && messages.length === 0) || clearingChat || appStateContext?.state.chatHistoryLoadingState === ChatHistoryLoadingState.Loading
     }
-    const handleDropDownSelection = (value:any) =>{
-        console.log('in chat tsx value is::',value)
-        setBusinessOption(value)
-    }
+
 
     return (
         <div className={styles.container} role="main">
@@ -775,7 +772,7 @@ const Chat = () => {
                                 </Dialog>
                             </Stack> 
                             <Stack>
-                        <SolutionDropdown onHandleSelection={handleDropDownSelection}/>
+                        
                     </Stack>     
                             
                             <QuestionInput
