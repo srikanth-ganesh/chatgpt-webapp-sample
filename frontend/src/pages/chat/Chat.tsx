@@ -149,7 +149,7 @@ const Chat = () => {
         }
     }
 
-    const makeApiRequestWithoutCosmosDB = async (question: string, conversationId?: string,businessOption?:string) => {
+    const makeApiRequestWithoutCosmosDB = async (question: string, conversationId?: any,businessOption?:string) => {
         setIsLoading(true);
         setShowLoadingMessage(true);
         const abortController = new AbortController();
@@ -274,7 +274,7 @@ const Chat = () => {
         return abortController.abort();
     };
 
-    const makeApiRequestWithCosmosDB = async (question: string, conversationId?: string,businessOption?:string) => {
+    const makeApiRequestWithCosmosDB = async (question: string, conversationId?: any,businessOption?:string) => {
         setIsLoading(true);
         setShowLoadingMessage(true);
         console.log ('within cosmos db business option value:: ' ,businessOption)
@@ -292,7 +292,7 @@ const Chat = () => {
         //api call params set here (generate)
         let request: ConversationRequest;
         let conversation;
-        if (conversationId || conversationId.length > 0) {
+        if (conversationId) {
             conversation = appStateContext?.state?.chatHistory?.find((conv) => conv.id === conversationId)
             if (!conversation ) {
                 console.error("Conversation not found.");

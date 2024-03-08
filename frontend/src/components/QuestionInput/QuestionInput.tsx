@@ -6,11 +6,11 @@ import styles from "./QuestionInput.module.css";
 import { SolutionDropdown } from "../../components/SolutionDropdown";
 
 interface Props {
-    onSend: (question: string, id?: string,businessOption?:string) => void;
+    onSend: (question: string, id?: any,businessOption?:string) => void;
     disabled: boolean;
     placeholder?: string;
     clearOnSend?: boolean;
-    conversationId?: string;
+    conversationId?: any;
 }
 
 export const QuestionInput = ({ onSend, disabled, placeholder, clearOnSend, conversationId }: Props) => {
@@ -25,7 +25,7 @@ export const QuestionInput = ({ onSend, disabled, placeholder, clearOnSend, conv
         if(conversationId){
             onSend(question, conversationId,businessOption);
         }else{
-            onSend(question,"",businessOption);
+            onSend(question,null,businessOption);
         }
 
         if (clearOnSend) {
