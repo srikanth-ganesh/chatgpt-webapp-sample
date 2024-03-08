@@ -523,14 +523,18 @@ def prepare_model_args(request_body):
         #     }
         # ]
 
-
-        for message in request_messages:
-            if message:        
-                jira_prompt = generatePrompt(message["content"],message['QueryType'])
-                messages.append({
+        jira_prompt = generatePrompt(request_messages[-1]["content"],request_messages[-1]['QueryType'])
+        messages.append({
                 "role": "user",
                 "content": jira_prompt
                 })
+        # for message in request_messages:
+        #     if message:        
+        #         jira_prompt = generatePrompt(message["content"],message['QueryType'])
+        #         messages.append({
+        #         "role": "user",
+        #         "content": jira_prompt
+        #         })
 
     model_args = {
         "messages": messages, 
