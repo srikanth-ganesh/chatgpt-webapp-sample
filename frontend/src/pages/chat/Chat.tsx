@@ -292,9 +292,9 @@ const Chat = () => {
         //api call params set here (generate)
         let request: ConversationRequest;
         let conversation;
-        if (conversationId) {
+        if (conversationId || conversationId.length > 0) {
             conversation = appStateContext?.state?.chatHistory?.find((conv) => conv.id === conversationId)
-            if (!conversation) {
+            if (!conversation ) {
                 console.error("Conversation not found.");
                 setIsLoading(false);
                 setShowLoadingMessage(false);

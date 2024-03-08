@@ -25,7 +25,7 @@ export const QuestionInput = ({ onSend, disabled, placeholder, clearOnSend, conv
         if(conversationId){
             onSend(question, conversationId,businessOption);
         }else{
-            onSend(question,businessOption);
+            onSend(question,"",businessOption);
         }
 
         if (clearOnSend) {
