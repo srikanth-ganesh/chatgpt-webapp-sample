@@ -3,6 +3,7 @@ import { Stack, TextField } from "@fluentui/react";
 import { SendRegular } from "@fluentui/react-icons";
 import Send from "../../assets/Send.svg";
 import styles from "./QuestionInput.module.css";
+import { SolutionDropdown } from "../../components/SolutionDropdown";
 
 interface Props {
     onSend: (question: string, id?: string,businessOption?:string) => void;
@@ -42,6 +43,10 @@ export const QuestionInput = ({ onSend, disabled, placeholder, clearOnSend, conv
     const onQuestionChange = (_ev: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string) => {
         setQuestion(newValue || "");
     };
+    const handleDropDownSelection = (value:any) =>{
+        console.log('in QuestionInput tsx value is::',value)
+        setBusinessOption(value)
+    }
 
     const sendQuestionDisabled = disabled || !question.trim();
 
@@ -57,6 +62,7 @@ export const QuestionInput = ({ onSend, disabled, placeholder, clearOnSend, conv
                 onChange={onQuestionChange}
                 onKeyDown={onEnterPress}
             />
+            <SolutionDropdown onHandleSelection={handleDropDownSelection}/>
             <div className={styles.questionInputSendButtonContainer} 
                 role="button" 
                 tabIndex={0}
